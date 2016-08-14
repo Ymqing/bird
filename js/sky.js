@@ -1,51 +1,56 @@
-/**
- * Created by Administrator on 2016/7/21 0021.
- */
-/**
- * Ìì¿ÕÀà¹¹Ôìº¯Êı
- * 01ÊµÀıÀà
- * 02¾²Ì¬ÊôĞÔ/·½·¨
- * 03Ô­ĞÍ·½·¨
- */
-//01
-(function (w){
-    function Sky(x,y){
-        if(!Sky.isInit){
-            throw 'Çë»Ø°É';
+// å¤§åœ°ç±»æ¨¡å—
+(function (w) {
+
+    // å¤§åœ°ç±»
+    function Sky(x, y) {
+        if (!Sky.isInit) {
+            throw 'è¯·å›å§ï¼';
         }
-        this.x=x||0;
-        this.y=y||0;
-        this.speed=-3;
-        //Ã¿´´½¨Ò»¸öÊµÀı£¬Í³¼ÆÒ»ÏÂ¸ÃÊı×Ö
+
+        this.x = x || 0; // å¤§åœ°xè½´åæ ‡
+        this.y = y || 0; // å¤§åœ°yè½´åæ ‡
+        this.speed = -3; // å¤§åœ°è¿åŠ¨é€Ÿåº¦
+
+        // æ¯åˆ›å»ºä¸€ä¸ªå®ä¾‹ï¼Œè¯¥ç»Ÿè®¡æ•°å€¼++
         Sky.total++;
     }
-    //02Í³¼Æ´´½¨ÁË¶à¸ö´óµØÊµÀı¶ÔÏó£¬ÊôÓÚ¾²Ì¬ÊôĞÔ
-    Sky.total=0;
-    Sky.init=function (ctx,skyImgObj){
-        Sky.ctx=ctx;
-        Sky.skyImgObj=skyImgObj;
-        Sky.imgWidth=Sky.skyImgObj.width;
-        Sky.imgHeight=Sky.skyImgObj.height;
-        //³õÊ¼»¯Íê±Ï£¬¿ÉÒÔ´´½¨ÊµÀıÁË
-        if(ctx&&skyImgObj){
-            Sky.isInit=true;
+
+    // ç»Ÿè®¡åˆ›å»ºäº†å¤šä¸ªå¤§åœ°å®ä¾‹ï¼Œè¿™æ˜¯é™æ€å±æ€§
+    Sky.total = 0;
+
+    Sky.init = function (ctx, skyImgObj) {
+        // ç»™ç±»æ·»åŠ é™æ€å±æ€§ï¼Œæœ‰ç»˜å›¾ç¯å¢ƒï¼Œ
+        // å’Œå¤©ç©ºå›¾åƒèµ„æºï¼Œä»¥åŠ1ä¸ªå¤©ç©ºçš„å®½åº¦å’Œé«˜åº¦
+        Sky.ctx = ctx;
+        Sky.skyImgObj = skyImgObj;
+        Sky.imgWidth = Sky.skyImgObj.width;
+        Sky.imgHeight = Sky.skyImgObj.height;
+
+        // åªæœ‰ç»™æˆ‘ä¼ äº†ç»˜å›¾ç¯å¢ƒå’Œæ·»åŠ å›¾åƒèµ„æºï¼Œæ‰èƒ½è®©å¯¹æ–¹åˆ›å»ºå¤§åœ°å®ä¾‹
+        if (ctx && skyImgObj) {
+            Sky.isInit = true;
         }
     };
-    //03 Ô­ĞÍ
-    Sky.prototype={
-        constructor:Sky,//ÖØĞÂ¸³Öµ»á¶ªÊ§constructor
-        draw:function(){
-            Sky.ctx.drawImage(Sky.skyImgObj, this.x,this.y);
+
+    // è¦†å†™ç±»çš„åŸå‹
+    Sky.prototype = {
+        constructor: Sky,  // æ‰‹åŠ¨è¡¥å…¨ä¸€ä¸‹ä¸¢å¤±çš„constructorå±æ€§
+
+        // ç»˜åˆ¶å¤§åœ°
+        draw: function () {
+            Sky.ctx.drawImage(Sky.skyImgObj, this.x, this.y);
         },
-        update:function(){
-            this.x+=this.speed;
-            //this.xÊÇÒ»¸ö¸ºÖµ
-            if(this.x<-Sky.imgWidth){
-                //this.x=Sky.imgWidth//Á¬½ÓÓĞÎÊÌâ
-                this.x+=Sky.imgWidth*Sky.total
+
+        // æ›´æ–°å¤§åœ°ä¸‹ä¸€å¸§æ¸²æŸ“æ—¶çš„æ•°æ®å€¼
+        update: function () {
+            this.x += this.speed;
+
+            // å¦‚æœå¤©ç©ºèµ°å‡ºç”»å¸ƒï¼Œé‚£ä¹ˆè®©å¤©ç©ºå‘å³æ‹¼æ¥
+            if(this.x < -Sky.imgWidth) {
+                this.x += Sky.imgWidth * Sky.total;
             }
         }
-    }
+    };
 
-    w.Sky=Sky;
-}(window))
+    w.Sky = Sky;
+}(window));

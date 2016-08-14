@@ -1,13 +1,14 @@
-/**
- * Created by Administrator on 2016/7/21 0021.
- */
-//copy继承函数
-function extend(obj1,obj2){
-    for(var key in obj2){
-        obj1[key]=obj2[key];
+// copy缁ф壙鍑芥暟
+function extend(obj1, obj2) {
+    for (var key in obj2) {
+        // obj2缁ф壙鐨勫睘鎬т笉copy
+        if (obj2.hasOwnProperty(key)) {
+            obj1[key] = obj2[key];
+        }
     }
 }
-//util对象，里面有很多工具方法
-var util={
-    extend:extend
-}
+
+// util瀵硅薄锛岄噷闈㈡湁寰堝宸ュ叿鏂规硶
+var util = {
+    extend: extend
+};
