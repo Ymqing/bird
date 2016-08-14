@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>小鸟案例</title>
+</head>
+<body>
+<canvas id="cvs" width="800" height="600" style="border:1px solid red"></canvas>
+<script src="js/util.js"></script>
+<script src="js/getImgObj.js"></script>
+<script src="js/bird.js"></script>
+<script src="js/sky.js"></script>
+<script src="js/land.js"></script>
+<script src="js/pipe.js"></script>
+<script>
+
+    //游戏主模块
+    (function(){
+        var cvs=document.getElementById('cvs');
+        var ctx=cvs.getContext('2d');
+
+        var a=false;
+        //调用函数，获取所需图像对象的资源
+        getImgObj(function(imgObj){
+
+            //001初始化Bird类，把绘图环境传到Bird函数中
+            Bird.init(ctx,imgObj.bird);
+            //创建鸟实例
+            var bird=new Bird(10,10,52,45);
+            //-----给实例添加一个点击事件，事件发生时，小鸟向上飞行
+            cvs.addEventListener('click',function(){
+                bird.speed=-2;
+            });
+
+            //002初始化天空
+            Sky.init(ctx,imgObj.sky);
+            var sky=new Sky();
+            var sky2=new Sky(800);
+
+            //003初始化大地
+            Land.init(ctx,imgObj.land);
+            var land=new Land(0,cvs.height-Land.imgHeight);
+            var land1=new Land(336,cvs.height-Land.imgHeight);
+            var land2=new Land(336*2,cvs.height-Land.imgHeight);
+            var land3=new Land(336*3,cvs.height-Land.imgHeight);
+
+            //04 初始化柱子
+            Pipe.init(ctx,imgObj.pipeDown,imgObj.pipeUp);
+            var pipe=new Pipe(300);
+            var pipe1=new Pipe(300+imgObj.pipeDown.width*3);
+            var pipe2=new Pipe(300+imgObj.pipeDown.width*3*2);
+            var pipe3=new Pipe(300+imgObj.pipeDown.width*3*3);
+            var pipe4=new Pipe(300+imgObj.pipeDown.width*3*4);
+            var pipe5=new Pipe(300+imgObj.pipeDown.width*3*5);
+
+
+            //添加定时器，在定时器中绘制天空，小鸟,大地
+            var timer=setInterval(function(){
+                //记得清除画布
+                ctx.clearRect(0,0,cvs.width,cvs.height);
+
+                sky.draw();
+                sky.update();
+                sky2.draw();
+                sky2.update();
+
+
+                ctx.beginPath();
+                pipe.draw();
+                pipe.update();
+                pipe1.draw();
+                pipe1.update();
+                pipe2.draw();
+                pipe2.update();
+                pipe3.draw();
+                pipe3.update();
+                pipe4.draw();
+                pipe4.update();
+                pipe5.draw();
+                pipe5.update();
+
+                land.draw();
+                land.update();
+                land1.draw();
+                land1.update();
+                land2.draw();
+                land2.update();
+                land3.draw();
+                land3.update();
+
+                bird.draw();
+                bird.update();
+                //设置游戏规则，小鸟中心触到天空或大地，*如果小鸟的中心进入柱子的路径中*游戏停止
+                //计算小鸟的中心位置
+                var birdCordX=bird.x+Bird.birdWidth/2;
+                var birdCordY=bird.y+Bird.birdHeight/2;
+                if(birdCordY<=0
+                        ||birdCordY>=cvs.height-Land.imgHeight
+                        ||ctx.isPointInPath(birdCordX,birdCordY)){
+                    clearInterval(timer);
+                   return;
+                }
+            },1000/45);
+
+
+        });
+    }())
+
+</script>
+
+
+</body>
+</html>
